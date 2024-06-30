@@ -1,3 +1,6 @@
 # frozen_string_literal: true
 
-# Redis.current = Redis.new(url: ENV['REDIS_URL'])
+REDIS = Redis.new(
+  host: Rails.application.credentials.redis_host,
+  port: Rails.application.credentials.redis_port
+)
