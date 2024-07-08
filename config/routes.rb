@@ -10,4 +10,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root 'stream#show'
+  resources :stream do
+    collection do
+      get 'fetch_position'
+      get 'show_params'
+      get 'ping'
+    end
+  end
+
+  mount ActionCable.server => '/cable'
 end

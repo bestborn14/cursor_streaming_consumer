@@ -10,4 +10,23 @@ class StreamController < ApplicationController
     # another source.
     @data = fetch_latest_data
   end
+
+  def fetch_position
+    data = fetch_latest_data
+    p data
+    render json: { data: }
+  end
+
+  def show_params
+    render html: params
+  end
+
+  def ping
+    loop do
+      data = fetch_latest_data
+      ActionCable.server.broadcast 'stream', data
+      sleep 5
+    end
+    { json: {} }
+  end
 end

@@ -1,3 +1,102 @@
-<div>
-  <%= @data%>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Cursor</title>
+  <style>
+    body, html {
+        overflow: hidden;
+      }
+
+    .content {
+      width: 25px;
+      height: 105%;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="rectangle" style="width: 100%; height: 990px; background-color: black"></div>
+  <div class="content" id="centeredDiv">
+    <img src="cursor-png-glow.ico">
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const centeredDiv = document.getElementById('centeredDiv');
+      // const socket = new WebSocket('ws://localhost:3000/cable');
+
+      function centerDiv() {
+        const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth;
+        const divHeight = centeredDiv.offsetHeight;
+        const divWidth = centeredDiv.offsetWidth;
+
+        centeredDiv.style.position = 'absolute';
+        centeredDiv.style.top = `${(windowHeight - divHeight) / 2}px`;
+        centeredDiv.style.left = `${(windowWidth - divWidth) / 2}px`;
+      }
+
+      // function createSocket() {
+      //   const socket = new WebSocket('ws://localhost:3000/stream');
+      //   socket.onopen = function() {
+      //     console.log('Connected to the server');
+      //   };
+
+        // socket.onmessage = function(event) {
+        //   const data = JSON.parse(event.data);
+        //   x = data.xPosition;
+        //   y = data.yPosition;
+        //   centeredDiv.style.left = `${x}px`;
+        //   centeredDiv.style.top = `${y}px`;
+        // };
+
+      //   socket.onclose = function() {
+      //     console.log('Connection closed');
+      //   };
+
+      //   socket.onerror = function(error) {
+      //     console.error('Error:', error);
+      //   };
+      // }
+
+      centerDiv();
+      // window.addEventListener('resize', centerDiv);
+    });
+
+    // function setMousePos() {
+    //   $.ajax({
+    //     url: '/stream/fetch_position',
+    //     type: 'GET',
+    //     success: function(response) {
+    //       x = response['data']['xPosition'];
+    //       y = response['data']['yPosition'];
+    //       $('#centeredDiv').css({
+    //             left: x + 'px',
+    //             top: y + 'px'
+    //         });
+    //     }
+    //   });
+    // }
+    function pingServer() {
+      console.log('Pinging server');
+      $.ajax({
+        url: '/stream/ping',
+        type: 'GET',
+        success: function(response) {
+          // console.log(response);
+        }
+      });
+    }
+    $('#centeredDiv').on('click', function() {
+      pingServer();
+    });
+    // setInterval(setMousePos, 1000);
+  </script>
+</body>
+</html>
